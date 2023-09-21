@@ -15,5 +15,5 @@ $ scrapy runspider scraper.py
 
 $ scrapy crawl hh-spider (in case you have implemented a standard scrapy project)
 
-$ scrapy runspider scraper.py -o hh-scraped-results.json (in case you would like to save it into the file)
+$ scrapy runspider scraper.py -o hh-scraped-results.json -s FEED_EXPORT_ENCODING=utf-8 (in case you would like to save it into the file with correct encoding)
 ```
