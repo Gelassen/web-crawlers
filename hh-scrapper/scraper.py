@@ -13,7 +13,7 @@ class HHSpider(scrapy.Spider):
         self.JOB_COMPANY_SELECTOR = '.bloko-link_kind-tertiary::text'
         self.JOB_COMPANY_URL_SELECTOR = '.bloko-link_kind-tertiary::attr(href)'
         self.JOB_COMPENSATION_SELECTOR = '.bloko-header-section-2::text'
-        self.NEXT_SELECTOR = '.bloko-button.pager-next::attr(href)'
+        self.NEXT_SELECTOR = '.bloko-button[data-qa="pager-next"]::attr(href)'
 
     def parse(self, response):
         for vacancy in response.css(self.JOB_SELECTOR): 
@@ -23,9 +23,9 @@ class HHSpider(scrapy.Spider):
                 'company' : vacancy.css(self.JOB_COMPANY_SELECTOR).get(),
                 'companyUrl' : self.BASE_URL + vacancy.css(self.JOB_COMPANY_URL_SELECTOR).get()
             }
-        
+
         next_page = response.css(self.NEXT_SELECTOR).get()
-        print("Next page: " + response.urljoin(next_page))
+
         if next_page is not None:
             yield scrapy.Request(response.urljoin(next_page))
 
