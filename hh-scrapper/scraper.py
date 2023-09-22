@@ -1,5 +1,6 @@
 import scrapy 
 
+# https://hh.ru/robots.txt deny usage of all robots except from popular search engines
 class HHSpider(scrapy.Spider):
     name = 'hh-spider'
     start_urls = [
@@ -14,6 +15,14 @@ class HHSpider(scrapy.Spider):
         self.JOB_COMPANY_URL_SELECTOR = '.bloko-link_kind-tertiary::attr(href)'
         self.JOB_COMPENSATION_SELECTOR = '.bloko-header-section-2::text'
         self.NEXT_SELECTOR = '.bloko-button[data-qa="pager-next"]::attr(href)'
+
+    def start_requests(self):
+        for url in self.start_urls:
+            # proxy = 'https://95.56.254.139:3128'
+            yield scrapy.Request(url=url, 
+                callback=self.parse, 
+                headers={"User-Agent": "hh-crawler ((+https://github.com/Gelassen/web-crawlers))"},
+            )
 
     def parse(self, response):
         for vacancy in response.css(self.JOB_SELECTOR): 
