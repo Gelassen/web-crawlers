@@ -34,8 +34,8 @@ class StepStoneSpider(scrapy.Spider):
         for vacancy in response.css(self.JOB_SELECTOR): 
             yield {
                 'jobTitle' : vacancy.css(self.JOB_TITLE_SELECTOR).get(),
-                'company' : vacancy.css(self.JOB_COMPANY_SELECTOR).get(),
-                'location' : vacancy.css(self.JOB_LOCATION_SELECTOR).get(),
+                'company' : join(vacancy.css(self.JOB_COMPANY_SELECTOR).getAll()),
+                'location' : join(vacancy.css(self.JOB_LOCATION_SELECTOR).getAll()),
                 'companyUrl' : vacancy.css(self.JOB_COMPANY_URL_SELECTOR).get()
             }
 

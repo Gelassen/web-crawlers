@@ -21,15 +21,15 @@ class HHSpider(scrapy.Spider):
             # proxy = 'https://95.56.254.139:3128'
             yield scrapy.Request(url=url, 
                 callback=self.parse, 
-                headers={"User-Agent": "hh-crawler ((+https://github.com/Gelassen/web-crawlers))"},
+                headers={"User-Agent": "hh-crawler (+https://github.com/Gelassen/web-crawlers)"},
             )
 
     def parse(self, response):
         for vacancy in response.css(self.JOB_SELECTOR): 
             yield {
                 'jobTitle' : vacancy.css(self.JOB_TITLE_SELECTOR).get(),
-                'compensation' : vacancy.css(self.JOB_COMPENSATION_SELECTOR).get(),
-                'company' : vacancy.css(self.JOB_COMPANY_SELECTOR).get(),
+                'compensation' : ''.join(vacancy.css(self.JOB_COMPENSATION_SELECTOR).getall()),
+                'company' : ''.join(vacancy.css(self.JOB_COMPANY_SELECTOR).getall()),
                 'companyUrl' : self.BASE_URL + vacancy.css(self.JOB_COMPANY_URL_SELECTOR).get()
             }
 
